@@ -13,9 +13,10 @@ WORKDIR /app
 
 ENV NODE_ENV=production
 
-COPY --from=deps /app/node_modules ./node_modules
-COPY package*.json ./
-COPY src ./src
+# Copy dependencies with correct ownership
+COPY --from=deps --chown=node:node /app/node_modules ./node_modules
+COPY --chown=node:node package*.json ./
+COPY --chown=node:node src ./src
 
 EXPOSE 3000
 
