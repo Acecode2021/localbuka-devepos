@@ -12,11 +12,16 @@ FROM node:20-alpine
 WORKDIR /app
 
 ENV NODE_ENV=production
+ENV HOME=/home/node
+ENV npm_config_cache=/home/node/.npm
 
 # Copy dependencies with correct ownership
 COPY --from=deps --chown=node:node /app/node_modules ./node_modules
 COPY --chown=node:node package*.json ./
 COPY --chown=node:node src ./src
+
+# Ensure node user owns its home directory
+RUN mkdir -p /home/node/.npm && chown -R node:node /home/node
 
 EXPOSE 3000
 
