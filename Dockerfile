@@ -12,21 +12,19 @@ FROM node:20-alpine
 WORKDIR /app
 
 ENV NODE_ENV=production
-ENV HOME=/home/node
-ENV npm_config_cache=/home/node/.npm
-ENV TMPDIR=/home/node/tmp
+ENV NODE_VERSION=20.11.1
+ENV HOME=/root
+ENV npm_config_cache=/root/.npm
+ENV TMPDIR=/root/tmp
 
 # Copy dependencies with correct ownership
-COPY --from=deps --chown=node:node /app/node_modules ./node_modules
-COPY --chown=node:node package*.json ./
-COPY --chown=node:node src ./src
+COPY --from=deps /app/node_modules ./node_modules
+COPY package*.json ./
+COPY src ./src
 
-# Ensure node user owns all required directories
-RUN mkdir -p /home/node/.npm /home/node/tmp && \
-    chown -R node:node /home/node /app
+# Ensure the app directory is owned by root
+RUN mkdir -p /root/.npm /root/tmp && chown -R root:root /app /root
 
 EXPOSE 3000
-
-USER node
 
 CMD ["node", "src/server.js"]
