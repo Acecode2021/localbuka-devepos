@@ -1,7 +1,7 @@
 const app = require("./app");
 
-const port = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3000;
 
-app.listen(port, "0.0.0.0", () => {
-  console.log(`LocalBuka API listening on port ${port}`);
+app.listen(PORT, "0.0.0.0", () => {
+  console.log(`LocalBuka API running on port ${PORT}`);
 });

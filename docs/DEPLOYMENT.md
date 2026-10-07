@@ -1,17 +1,15 @@
 # Deployment Guide
 
-## Pipeline stages
-1. Test (runs on every push to main)
+## Pipeline Stages
+1. Run tests
 2. Build Docker image
-3. Deploy to Render staging
-4. Verify staging health
+3. Deploy to Render (staging)
 
-## Failed deployment handling
+## Failed Deployment Handling
 
 ### If tests fail
-- Pipeline stops.
-- No Docker image is built.
-- No deployment happens.
+- Pipeline stops immediately.
+- No Docker image is built, no deployment occurs.
 - Developer fixes code and pushes again.
 
 ### If Docker build fails
@@ -25,11 +23,10 @@
 - Fix forward only after root cause is understood.
 
 ### Known Render-specific issue
-- `Exited with status 128` on Docker runtime is caused by Render clearing `/tmp` at startup.
-- Fix: switched to Node.js runtime to avoid Docker permission issues.
-- See docs/evidence for screenshots of the original failure and resolution.
+- `Exited with status 128` on Render's Docker runtime is caused by Render clearing `/tmp` at startup.
+- Resolution: switched to Render's native Node.js runtime to avoid Docker permission issues.
 
-## Rollback steps
+## Rollback Steps
 1. Render dashboard → service → Events.
 2. Find last known good deploy.
 3. Click Rollback.
