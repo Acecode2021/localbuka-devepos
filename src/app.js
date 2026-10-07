@@ -9,6 +9,7 @@ app.get("/health", (req, res) => {
   res.status(200).json({
     status: "ok",
     service: "localbuka-api",
+    version: "1.0.1",
     timestamp: new Date().toISOString()
   });
 });
